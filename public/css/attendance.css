@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+}
+
+header .logo {
+  font-size: 40px;
+  text-align: left;
+  padding: 24px 50px;
+  margin: 0 auto;
+}
+.select{
+  background-color: #eee;
+}
+p{text-align: center;
+  font-size: 24px;
+  padding: 40px;
+  font-weight: bold;
+}
+
+
+.flex_stamp{
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+
+}
+.whitebox{
+  /* position: relative; */
+  background: #ffffff;
+  /* width: 50%; */
+  width: 400px;
+  height: 200px;
+  margin: 40px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.atte_form{
+  font-size: 24px;
+  line-height: 180px;
+  text-align: center;
+  font-weight: bold;
+}
+
+  .flex_atte{margin-left: auto;}
+  .flex_break{margin-right: auto;}
+  a {
+    display: block;
+    text-decoration:none;
+    color: #000;
+    }

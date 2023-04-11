@@ -1,49 +1,65 @@
-<x-guest-layout>
-    <x-auth-card>
-        <!-- <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot> -->
+<!DOCTYPE html>
+<html lang="ja">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atte</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/attendance.css">
+</head>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+<body>
+    <header class="header">
+        <h1 class="header_left">Atte</h1>
+    </header>
+    <main>
+        <div class="user">
+            <h1>会員登録</h1>
+        </div>
+        <div class="form_container">
+            <table>
+                <form action="{{ route('register') }}" method="post">
+                    <tr>
+                        <td>
+                            @csrf
+                            <input type="text" name="name" placeholder="名前" class="form_box">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="email" name="mail" placeholder="メールアドレス" class="form_box">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" name="password" placeholder="パスワード" class="form_box">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" name="repassword" placeholder="確認用パスワード" class="form_box">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="submit" class="bn_add">会員登録</button>
+                        </td>
+                    </tr>
+                </form>
+                <tr>
+                    <td class="login">
+                        <p>アカウントをお持ちの方はこちらから</p>
+                        <a href="{{ route('login') }}" class="login_link">ログイン</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    <footer>
+        Atte,inc.
+    </footer>
+</body>
 
-            <!-- Name -->
-            <div>
-                <!-- <x-label for="name" :value="__('Name')" /> -->
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" placeholder="名前" required autofocus />
-            </div>
-            <!-- Email Address -->
-            <div class="mt-4">
-                <!-- <x-label for="email" :value="__('Email')" /> -->
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" placeholder="メールアドレス" required />
-            </div>
-            <!-- Password -->
-            <div class="mt-4">
-                <!-- <x-label for="password" :value="__('Password')" /> -->
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" placeholder="パスワード" required autocomplete="new-password" />
-            </div>
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <!-- <x-label for="password_confirmation" :value="__('Confirm Password')" /> -->
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" placeholder="確認用パスワード" required />
-            </div>
-            <div class="flex items-center justify mt-4">
-                <x-button class="w-full text-center">
-                    {{ __('会員登録') }}
-                </x-button>
-            </div>
-            <div class="text-center">
-                <p>アカウントをお持ちの方はこちらから</p>
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('ログイン') }}
-                </a>
-            </div>
-        </form>
-    </x-auth-card>
-    git remote add origin https://github.com/seki221/attendance.git
-</x-guest-layout>
+</html>

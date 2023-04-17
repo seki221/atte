@@ -108,12 +108,9 @@ p{
 } */
 .attendance_b {
   width: 100%;
-  display: flex;
 }
 fieldset {
   margin: 0 10%;
-  flex:;
-
 }
 
 button {

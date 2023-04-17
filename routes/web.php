@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,12 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [RestController::class, 'index'])->name('rest.index')->middleware('auth');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+Route::get('/', function () {
+    return view('index');
+});
 
 require __DIR__.'/auth.php';
+Route::get('/login', [LoginController::class, 'getIndex'])->name('login');
+Route::post('/login', [LoginController::class, 'postIndex'])->name('login');
+
+Route::get('/', [AttendanceController::class, 'index'])->middleware('auth');
+Route::post('/', [AttendanceController::class, 'index'])->middleware('auth');

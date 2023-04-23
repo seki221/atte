@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyAttendancesTable extends Migration
+class ModifyEndtimeAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,11 +26,7 @@ class ModifyAttendancesTable extends Migration
     public function down()
     {
         Schema::table('attendances', function (Blueprint $table) {
-            $table->date('date')->nullable(false);
-            $table->time('start_time')->nullable(false);
-            $table->timestamp('created_at')->useCurrent()->nullable(false);
-            $table->timestamp('updated_at')->useCurrent()->nullable(false);
-            
+            $table->time('end_time')->nullable()->default(null);
         });
     }
 }

@@ -22,11 +22,9 @@
         <ul>
           <li class="nav__item"><a href="/">ホーム</a></li>
           <li class="nav__item">
-            <form action="/attendance" method="post">
+            <form action="/attendance/1" method="get">
               @csrf
-              <?php $today = date('Y-m-d'); ?>
-              <input type="hidden" name="getToday" value="{{ $today }}">
-              <button class="nav__attendance" name="changeDay" value="today">日付一覧</button>
+              <button class="nav__attendance" name="getToday" value="today">日付一覧</button>
             </form>
           </li>
           <li class="nav__item">
@@ -41,6 +39,7 @@
     </div>
   </header>
   @yield('content')
+  @yield('list')
   <footer>
     <small>Atte, Inc.</small>
   </footer>

@@ -1,4 +1,4 @@
-main {
+.main__inner {
   background-color: #D3D3D3;
   padding: 20px 0;
 }
@@ -14,21 +14,8 @@ main {
   margin-bottom: 30px;
 }
 
-.main__attendance {
+.date {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
-}
-
-.timestamp button {
-  padding: 60px 150px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-bottom: 30px;
-  border-radius: 10px;
-  border-color: #D3D3D3;
-}
-
-.attendance__left {
-  margin-right: 60px;
 }

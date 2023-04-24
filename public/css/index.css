@@ -6,29 +6,6 @@ main {
 .main__title {
   font-weight: bold;
   text-align: center;
-}
-
-.status {
-  text-align: center;
-  color: red;
-  margin-bottom: 30px;
-}
-
-.main__attendance {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 50px;
-}
-
-.timestamp button {
-  padding: 60px 150px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-bottom: 30px;
-  border-radius: 10px;
-  border-color: #D3D3D3;
-}
-
-.attendance__left {
-  margin-right: 60px;
+  font-size: xx-large;
+  margin: 30px;
 }

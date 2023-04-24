@@ -8,7 +8,7 @@
   <title>@yield('title')</title>
 
   <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="/css/default.css">
 </head>
 
 <body>
@@ -39,7 +39,6 @@
     </div>
   </header>
   @yield('content')
-  @yield('list')
   <footer>
     <small>Atte, Inc.</small>
   </footer>

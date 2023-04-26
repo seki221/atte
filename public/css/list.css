@@ -8,10 +8,12 @@ main {
   justify-content: center;
   margin-bottom: 20px;
 }
+
+
 /* area_navi */
 .area_navi {
   display: flex;
-  /* justify-content: space-around; */
+  justify-content: space-around;
   margin: 0 0 32px;
 }
 

@@ -17,7 +17,6 @@
 
   <div class="date_list">
     <table class="attandance_rest_list">
-      <thead class="atte_tag">
         <tr>
           <th>名前</th>
           <th>勤務開始</th>
@@ -25,16 +24,15 @@
           <th>休憩時間</th>
           <th>勤務時間</th>
         </tr>
-      </thead>
-      <tbody>
-        @foreach($users as $array)
+        @foreach($attendances as $values)
         <tr>
+          @foreach($values as $sub_value)
           <td>
-            {{ $user->name }}
+            {{$sub_value}}
           </td>
-          
+          @endforeach
+        </tr>
         @endforeach
-      </tbody>
     </table>
   </div>
   <div class="area_navi">

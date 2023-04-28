@@ -6,9 +6,26 @@ main {
 .date {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 25px;
+}
+.date form #prev,#next{
+width: 40px;
+height: 25px;
+border-color: #0c7ce4;
+font-size: 20px;
+color: #0c7ce4
+}
+.date__today{
+  font-size: x-large;
+  margin: 0 40px 0;
 }
 
+.attandance_rest_list{
+  margin: 0 auto;
+}
+tr th{
+  padding: 0 40px;
+}
 
 /* area_navi */
 .area_navi {

@@ -1,3 +1,4 @@
+
 main {
   background-color: #D3D3D3;
   padding: 20px 0;
@@ -6,6 +7,26 @@ main {
 .main__title {
   font-weight: bold;
   text-align: center;
-  font-size: xx-large;
-  margin: 30px;
+}
+
+.status {
+  text-align: center;
+  color: red;
+}
+
+.main__attendance {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.timestamp button {
+  padding: 60px 180px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.attendance__left {
+  margin-right: 30px;
 }

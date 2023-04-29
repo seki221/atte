@@ -7,26 +7,29 @@ main {
 .main__title {
   font-weight: bold;
   text-align: center;
+  padding: 30px;
+  font-size: 30px;
 }
 
-.status {
+/* .status {
   text-align: center;
   color: red;
-}
+} */
 
 .main__attendance {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+  padding-top: 30px;
 }
 
 .timestamp button {
-  padding: 60px 180px;
+  padding: 65px 180px;
   font-weight: bold;
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .attendance__left {
-  margin-right: 30px;
+  margin-right: 40px;
 }

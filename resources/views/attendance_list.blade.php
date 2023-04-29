@@ -3,6 +3,7 @@
 <head>
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/list.css">
+  
 </head>
 @section('title', '日付一覧')
 @section('content')
@@ -29,12 +30,8 @@
         <th>休憩時間</th>
         <th>勤務時間</th>
       </tr>
-      @foreach($attendances as $values)
-      <tr class="table__value">
-        @foreach($values as $sub_value)
-        <td>{{ $sub_value }}</td>
-        @endforeach
-      </tr>
+      @foreach($attendances as $attendance)
+
       @endforeach
 
     </table>

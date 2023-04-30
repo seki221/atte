@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/list.css">
-  
+
 </head>
 @section('title', '日付一覧')
 @section('content')
@@ -11,13 +11,19 @@
 
 <main>
   <div class="date">
-    <form action="getattendances" method="get">
-      <button name="date" id="prev" value="{{ $today }}">
-        < </button>
+    <form action="/attendance?date" method="get">
+      @csrf
+      <button name="date" id="prev" value="{{ $today }}"> &lt;
+        <!-- <?php
+        echo date('Y-m-d', strtotime('-1 day')); //昨日
+        ?> -->
+      </button>
+
     </form>
     <p class="date__today">{{ $today }}</p>
     <form action="getattendances" method="get">
-      <button name="date" id="next" value="{{ $today }}">></button>
+      @csrf
+      <button name="date" id="next" value="{{ $today }}"> &gt;</button>
     </form>
   </div>
 
@@ -30,23 +36,20 @@
         <th>休憩時間</th>
         <th>勤務時間</th>
       </tr>
-      @foreach($attendances as $attendance)
-
+      @foreach ($attendances as $values)
+      <tr class="table-value">
+        @foreach ($values as $sub_value)
+        <td>{{ $sub_value }}</td>
+        @endforeach
+      </tr>
       @endforeach
-
     </table>
   </div>
-  <!-- <div class="area_navi">
-    <div class="prev"><a>＜</a></div>
-    <div class="pagenum">
-      <ol>
-        <li><a>1</a></li>
-        <li><a href="">2</a></li>
-        <li><a href="">3</a></li>
-        <li><a href="">4</a></li>
-      </ol>
-    </div>
-    <div class="next"><a href="">＞</a></div>
-  </div> -->
+  <div class="paginate">
+    <form action="getattendances" method="get">
+      <input type="hidden" name="date" value="{{ $today }}">
+      {{ $attendances->links() }}
+    </form>
+  </div>
 </main>
 @endsection

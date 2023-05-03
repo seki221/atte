@@ -41,9 +41,9 @@ class AttendanceController extends Controller
         if ($oldAttendance) {
             $oldDay = new Carbon($oldAttendance->date);
         }
-
+        
         $today = Carbon::today();
-
+        //休憩を最低1度以上「開始」と「終了」を両方選択している
         return ($oldDay == $today);
     }
 
@@ -129,21 +129,21 @@ class AttendanceController extends Controller
             $user = Auth::user();
             $oldAttendance = Attendance::where('user_id', $user->id)->latest()->first();
             if ($oldAttendance) {
-                $oldDay = new carbon($oldAttendance->date);
-                $today = Carbon::today();
-                if ($oldDay == $today->subDay()) {
-                    if (($oldAttendance->start_time) && (!$oldAttendance->end_time)) {
-                        $oldAttendance->update([
-                            'end_time' => '23:59:59',
-                        ]);
+                // $oldDay = new carbon($oldAttendance->date);
+                // $today = Carbon::today();
+                // if ($oldDay == $today->subDay()) {
+                //     if (($oldAttendance->start_time) && (!$oldAttendance->end_time)) {
+                //         $oldAttendance->update([
+                //             'end_time' => '23:59:59',
+                //         ]);
 
-                        Attendance::create([
-                            'user_id' => $user->id,
-                            'date' => Carbon::today(),
-                            'start_time' => '0:00:00',
-                        ]);
-                    }
-                }
+                //         Attendance::create([
+                //             'user_id' => $user->id,
+                //             'date' => Carbon::today(),
+                //             'start_time' => '0:00:00',
+                //         ]);
+                //     }
+                // }
                 $isWorkStarted = $this->didWorkStart();
                 $isWorkEnded = $this->didWorkEnd();
                 $isRestStarted = $this->didRestStart();
@@ -207,6 +207,7 @@ class AttendanceController extends Controller
                 $day = $today->day;
                 $oldAttendanceEndTime = new carbon();
                 $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
+                
                 if ($day == $oldAttendanceEndTimeDay) {
                     return redirect()->back();
                 } else {
@@ -253,13 +254,13 @@ class AttendanceController extends Controller
                 'end_time' => Carbon::now(),
             ]);
         }
-
+        
         return redirect()->back()->with([
             'user' => $user,
             'isRestStarted' => $isRestStarted,
         ]);
     }
-
+    
     public function getAttendances(Request $request)
     {
         if (is_null($request->date) || ($request->date == "today")) {
@@ -274,6 +275,7 @@ class AttendanceController extends Controller
         $i = 0;
 
         $attendanceTodayAll = Attendance::where('date', $today)->get();
+
         foreach ($attendanceTodayAll as $attendanceToday) {
             if ($attendanceToday->end_time) {
                 $restTodayAll = Rest::where('attendance_id', $attendanceToday->id)->get();

@@ -15,8 +15,11 @@
       @csrf
       <button name="date" id="prev" value="{{ $today }}"> &lt;
         <!-- <?php
-        echo date('Y-m-d', strtotime('-1 day')); //昨日
-        ?> -->
+
+              use App\Models\Attendance;
+
+              echo date('Y-m-d', strtotime('-1 day')); //昨日
+              ?> -->
       </button>
 
     </form>

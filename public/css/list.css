@@ -27,7 +27,10 @@ tr th{
   padding: 0 40px;
 }
 
-
+.table-value {
+  border-top: 1px solid #d4cfce;
+  line-height: 50px;
+}
 /* area_navi */
 .area_navi {
   display: flex;
@@ -51,7 +54,9 @@ tr th{
   background-color: #EC008D;
 }
 
-.area_navi .pagenum ol {}
+/* .area_navi .pagenum ol {
+
+} */
 
 .area_navi .pagenum ol li {
   display: inline-block;

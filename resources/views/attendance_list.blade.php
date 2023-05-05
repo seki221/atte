@@ -39,12 +39,9 @@
         <th>休憩時間</th>
         <th>勤務時間</th>
       </tr>
-      @foreach ($attendances as $values)
-      <tr class="table-value">
-        @foreach ($values as $sub_value)
-        <td>{{ $sub_value }}</td>
-        @endforeach
-      </tr>
+      @foreach ($valus as $valu)
+      // 繰り返し処理
+      {{ $valu }}
       @endforeach
     </table>
   </div>

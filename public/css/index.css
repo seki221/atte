@@ -29,7 +29,12 @@ main {
   font-size: 20px;
   margin-bottom: 40px;
 }
-
+button{
+  padding: 65px 180px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 40px;
+}
 .attendance__left {
   margin-right: 40px;
 }

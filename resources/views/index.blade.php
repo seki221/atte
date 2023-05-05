@@ -18,11 +18,13 @@
     <div class="attendance__left">
       <!-- 勤務開始 -->
       @if(($isWorkStarted) || ($isWorkEnded))
+      <!--  -->
       <form action="/workStart" method="POST" class="timestamp">
         @csrf
         <button disabled style="color:gray">勤務開始</button>
       </form>
       @else
+      <!--  -->
       <form action="/workStart" method="POST" class="timestamp">
         @csrf
         <button class="button1">勤務開始</button>
@@ -76,6 +78,35 @@
         <button disabled style="color:gray">休憩終了</button>
       </form>
       @endif
+    </div>
+  </div>
+
+  <div class="main__attendance">
+    <div class="attendance__left">
+      <fieldset id="field_ws">
+        @if(($isWorkStarted) || ($isWorkEnded))
+        <form action="/workStart" method="POST" class="timestamp">
+          @csrf
+          <button id="workstart" onclick='field_ws.disabled = false; workstart.disabled = true; workend.disabled = false;'> 勤務開始 </button>
+        </form>
+        @else
+        <form action="/workStart" method="POST" class="timestamp">
+          @csrf
+          <button class="button1">勤務開始</button>
+        </form>
+        @endif
+      </fieldset>
+      <fieldset id="field_rs">
+        <button id="reststart" onclick='field_rs.disabled = true; restend.disabled = false;'>休憩開始</button>
+      </fieldset>
+    </div>
+    <div class="attendance__right">
+      <fieldset id="field_we">
+        <button id="workend" disabled="true" onclick='field_rs.disabled = true; workstart.disabled = false; workend.disabled = true;'>勤務終了</button>
+      </fieldset>
+      <fieldset id="field_re">
+        <button id="restend" disabled="true" onclick='field_rs.disabled = false; restend.disabled = true;'>休憩終了</button>
+      </fieldset>
     </div>
   </div>
 </main>

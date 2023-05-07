@@ -195,28 +195,37 @@ class AttendanceController extends Controller
     {
         $user = Auth::user();
         $attendance = Attendance::where('user_id', $user->id)->latest()->first();
-
+        //select * from attendances where user_id = 1 order by id desc limit 1
         if ($attendance) {
-            if (empty($attendance->end_time)) {
+            if (is_null($attendance->end_time)) {
+                // Restのend_timeがnullか否か
+                    // リレーションorファインドする
+        $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
+                // nullの時
+                // attendanceのendtimeと同時刻にする
+                // nullでない時
+                // 何もなし
                 $attendance->update([
                     'end_time' => Carbon::now()
                 ]);
                 return redirect()->back();
-            } else {
-                $today = new Carbon();
-                $day = $today->day;
-                $oldAttendanceEndTime = new carbon();
-                $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
+            } 
+            // else {
+            //     $today = new Carbon();
+            //     $day = $today->day;
+            //     $oldAttendanceEndTime = new Carbon();
+            //     $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
                 
-                if ($day == $oldAttendanceEndTimeDay) {
-                    return redirect()->back();
-                } else {
-                    return redirect()->back();
-                }
-            }
+            //     if ($day == $oldAttendanceEndTimeDay) {
+            //         return redirect()->back();
+            //     } else {
+            //         return redirect()->back();
+            //     }
+            // }
         } else {
             return redirect()->back();
         }
+        return redirect()->back();
     }
 
     //休憩開始アクション

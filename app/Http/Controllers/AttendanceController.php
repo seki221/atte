@@ -200,9 +200,17 @@ class AttendanceController extends Controller
             if (is_null($attendance->end_time)) {
                 // Restのend_timeがnullか否か
                     // リレーションorファインドする
-        $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
+            $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
                 // nullの時
                 // attendanceのendtimeと同時刻にする
+                // if ($rest) {
+                //     if (is_null($rest->end_time)) 
+                // }
+                if ($rest->start_time && !$rest->end_time) {
+                    $rest->update([
+                        'end_time' => Carbon::now(),
+                    ]);
+                }
                 // nullでない時
                 // 何もなし
                 $attendance->update([
@@ -210,23 +218,25 @@ class AttendanceController extends Controller
                 ]);
                 return redirect()->back();
             } 
-            // else {
-            //     $today = new Carbon();
-            //     $day = $today->day;
-            //     $oldAttendanceEndTime = new Carbon();
-            //     $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
-                
-            //     if ($day == $oldAttendanceEndTimeDay) {
-            //         return redirect()->back();
-            //     } else {
-            //         return redirect()->back();
-            //     }
-            // }
-        } else {
+        } else 
+        {
             return redirect()->back();
         }
         return redirect()->back();
     }
+    
+    // else {
+    //     $today = new Carbon();
+    //     $day = $today->day;
+    //     $oldAttendanceEndTime = new Carbon();
+    //     $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
+        
+    //     if ($day == $oldAttendanceEndTimeDay) {
+    //         return redirect()->back();
+    //     } else {
+    //         return redirect()->back();
+    //     }
+    // }
 
     //休憩開始アクション
     public function restStart()

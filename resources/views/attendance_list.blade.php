@@ -8,18 +8,11 @@
 @section('title', '日付一覧')
 @section('content')
 
-
 <main>
   <div class="date">
     <form action="/attendance?date" method="get">
       @csrf
       <button name="date" id="prev" value="{{ $today }}"> &lt;
-        <!-- <?php
-
-              use App\Models\Attendance;
-
-              echo date('Y-m-d', strtotime('-1 day')); //昨日
-              ?> -->
       </button>
 
     </form>
@@ -30,24 +23,31 @@
     </form>
   </div>
 
-  <div class="date_list">
-    <table class="attandance_rest_list">
-      <tr>
+  <div class="list">
+    <table class="attandance_list">
+      <tr class="table-title">
         <th>名前</th>
         <th>勤務開始</th>
         <th>勤務終了</th>
         <th>休憩時間</th>
         <th>勤務時間</th>
       </tr>
-      @foreach ($valus as $valu)
-      // 繰り返し処理
-      {{ $valu }}
+      @foreach($attendances as $values)
+      <form action="/getAttendance" method="get">
+        <tr class="table-value table-value-info">
+          @foreach($values as $sub_value)
+          <td>
+            {{$sub_value}}
+          </td>
+          @endforeach
+        </tr>
+      </form>
       @endforeach
     </table>
   </div>
   <div class="paginate">
-    <form action="getattendances" method="get">
-      <input type="hidden" name="date" value="{{ $today }}">
+    <form action="/attendance_list" method="get">
+      <input type="button" name="date" >
       {{ $attendances->links() }}
     </form>
   </div>

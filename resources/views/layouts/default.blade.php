@@ -20,12 +20,11 @@
       @if(Auth::check())
       <nav>
         <ul>
-          <li class="nav__item"><a href="/">ホーム</a></li>
           <li class="nav__item">
-            <form action="/attendance/1" method="get">
-              @csrf
-              <button class="nav__attendance" name="getToday" value="today">日付一覧</button>
-            </form>
+            <a href="/">ホーム</a>
+          </li>
+          <li class="nav__item">
+            <a href="/attendance/{num}">日付一覧</a>
           </li>
           <li class="nav__item">
             <form action="{{route('logout')}}" method="post">

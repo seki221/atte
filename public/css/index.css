@@ -24,10 +24,11 @@ main {
 }
 
 .timestamp button {
-  padding: 65px 180px;
+  padding: 75px 165px;
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 40px;
+  border: none;
 }
 button{
   padding: 65px 180px;

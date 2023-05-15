@@ -17,7 +17,7 @@
   <div class="main__attendance">
     <div class="attendance__left">
       <!-- 勤務開始 -->
-      @if(($isWorkStarted) || ($isWorkEnded))
+      @if($isWorkStarted)
       <!--  -->
       <form action="/workStart" method="POST" class="timestamp">
         @csrf

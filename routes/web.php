@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RestController;
 use App\Models\Attendance;
+use App\Http\Controllers\TimeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,5 @@ Route::post('/workStart', [AttendanceController::class, 'workStart']);
 Route::post('/workEnd', [AttendanceController::class, 'workEnd']);
 Route::post('/restStart', [AttendanceController::class, 'restStart']);
 Route::post('/restEnd', [AttendanceController::class, 'restEnd']);
-Route::get('/attendance/{num}', [AttendanceController::class, 'getAttendances']);
+Route::get('/attendance_list', [AttendanceController::class, 'getAttendances']);
+Route::get('/attendance?date={$today}', [TimeController::class, 'getAttendances']);

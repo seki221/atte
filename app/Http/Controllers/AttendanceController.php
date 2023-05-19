@@ -16,11 +16,11 @@ use DateTime;
 class AttendanceController extends Controller
 {
     //「勤務開始」判定
-    private function didWorkStart()
+    private function didWorkStart($user)
     {
-        $user = Auth::user();
+        
         $oldAttendance = Attendance::where('user_id', $user->id)->latest()->first();
-        $oldDay = '';
+        
         if ($oldAttendance) {
             $oldAttendanceDay = new Carbon($oldAttendance->date);
             $today = Carbon::today();
@@ -144,7 +144,7 @@ class AttendanceController extends Controller
                 //         ]);
                 //     }
                 // }
-                $isWorkStarted = $this->didWorkStart();
+                $isWorkStarted = $this->didWorkStart($user);
                 $isWorkEnded = $this->didWorkEnd();
                 $isRestStarted = $this->didRestStart();
             } else {
@@ -171,7 +171,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
 
         //「勤務開始」判定
-        $isWorkStarted = $this->didWorkStart();
+        $isWorkStarted = $this->didWorkStart($user);
 
         //「勤務終了」判定
         $isWorkEnded = $this->didWorkEnd();
@@ -183,11 +183,13 @@ class AttendanceController extends Controller
             'end_time'=>null,
         ]);
 
-        return redirect()->back()->with([
-            'user' => $user,
-            'isWorkStarted' => $isWorkStarted,
-            'isWorkEnded' => $isWorkEnded,
-        ]);
+        return redirect()->back();
+
+        // return redirect()->back()->with([
+        //     'user' => $user,
+        //     'isWorkStarted' => $isWorkStarted,
+        //     'isWorkEnded' => $isWorkEnded,
+        // ]);
     }
 
     //退勤アクション
@@ -198,24 +200,17 @@ class AttendanceController extends Controller
         //select * from attendances where user_id = 1 order by id desc limit 1
         if ($attendance) {
             if (is_null($attendance->end_time)) {
-                // Restのend_timeがnullか否か
-                    // リレーションorファインドする
-            $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
-                // nullの時
-                // attendanceのendtimeと同時刻にする
-                // if ($rest) {
-                //     if (is_null($rest->end_time)) 
-                // }
-                if ($rest->start_time && !$rest->end_time) {
+                $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
+                if ($rest && $rest->start_time && !$rest->end_time) {
                     $rest->update([
                         'end_time' => Carbon::now(),
                     ]);
                 }
-                // nullでない時
-                // 何もなし
+
                 $attendance->update([
                     'end_time' => Carbon::now()
                 ]);
+
                 return redirect()->back();
             } 
         } else 
@@ -225,19 +220,7 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
     
-    // else {
-    //     $today = new Carbon();
-    //     $day = $today->day;
-    //     $oldAttendanceEndTime = new Carbon();
-    //     $oldAttendanceEndTimeDay = $oldAttendanceEndTime->day;
-        
-    //     if ($day == $oldAttendanceEndTimeDay) {
-    //         return redirect()->back();
-    //     } else {
-    //         return redirect()->back();
-    //     }
-    // }
-
+    
     //休憩開始アクション
     public function restStart()
     {
@@ -280,6 +263,7 @@ class AttendanceController extends Controller
         ]);
     }
     
+    //「日付一覧」で表示される、全ユーザーの日付別勤怠情報
     public function getAttendances(Request $request)
     {
         if (is_null($request->date) || ($request->date == "today")) {
@@ -315,17 +299,29 @@ class AttendanceController extends Controller
         $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance?date={$today}"]);
         // &changeDay={$prevOrNext}
 
+        $dt = Carbon::now(); // Carbonを使って今日の日付を取得
+        $times = [
+            "SubDay" => $dt->subDay(),
+        ];
+
         return view('/attendance_list')->with([
             'today' => $today,
             'attendances' => $attendances,
         ]);
     }
 
+    
+
     //配列をページネート
     private function paginate($items, $perPage, $page, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        return new LengthAwarePaginator(
+            $items->forPage($page, $perPage), 
+            $items->count(), 
+            $perPage, 
+            $page, 
+            $options);
     }
 }

@@ -10,14 +10,13 @@
 
 <main>
   <div class="date">
-    <form action="/attendance?date" method="get">
+    <form action="/attendance_list" method="get">
       @csrf
       <button name="date" id="prev" value="{{ $today }}"> &lt;
       </button>
-
     </form>
     <p class="date__today">{{ $today }}</p>
-    <form action="getattendances" method="get">
+    <form action="/getattendances" method="get">
       @csrf
       <button name="date" id="next" value="{{ $today }}"> &gt;</button>
     </form>
@@ -30,15 +29,13 @@
         <th>勤務開始</th>
         <th>勤務終了</th>
         <th>休憩時間</th>
-        <th>勤務時間</th>
+        <th id="attendance_time">勤務時間</th>
       </tr>
-      @foreach($attendances as $values)
+      @foreach($attendances as $users)
       <form action="/getAttendance" method="get">
         <tr class="table-value table-value-info">
-          @foreach($values as $sub_value)
-          <td>
-            {{$sub_value}}
-          </td>
+          @foreach($users as $name)
+          <td>{{$name}}</td>
           @endforeach
         </tr>
       </form>
@@ -47,7 +44,7 @@
   </div>
   <div class="paginate">
     <form action="/attendance_list" method="get">
-      <input type="button" name="date" >
+      <input type="hidden" name="date" value="{{ $today }}">
       {{ $attendances->links() }}
     </form>
   </div>

@@ -13,8 +13,18 @@ width: 40px;
 height: 25px;
 border-color: #0c7ce4;
 font-size: 20px;
-color: #0c7ce4
+color: #0c7ce4;
 }
+
+.date form #prev:hover{
+color: #fff;
+background-color: #0c7ce4;
+}
+.date form #next:hover {
+color: #fff;
+background-color: #0c7ce4;
+}
+
 .date__today{
   font-size: x-large;
   margin: 0 40px 0;
@@ -22,7 +32,7 @@ color: #0c7ce4
 
 
 .attandance_list{
-  margin: 0 auto;
+  margin: 0 auto 40;
 }
 
 .result-table {
@@ -34,15 +44,21 @@ color: #0c7ce4
 }
 
 tr th{
-  padding: 0 40px;
+  /* padding: 0 40px; */
+  padding: 0 100px 0 50px
+}
+#attendance_time{
+  /* padding: 0 40px; */
+  padding: 10 50px 10 50px
 }
 tr td
 {
-text-align: center;
+padding: 10 0 10 50;
 }
 
 .table-title {
   line-height: 50px;
+  border-top: 1px solid #464545;
 }
 .table-value {
   border-top: 1px solid #464545;

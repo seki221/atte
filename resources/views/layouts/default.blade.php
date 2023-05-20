@@ -24,7 +24,7 @@
             <a href="/">ホーム</a>
           </li>
           <li class="nav__item">
-            <a href="/attendance/{num}">日付一覧</a>
+            <a href="/attendance_list">日付一覧</a>
           </li>
           <li class="nav__item">
             <form action="{{route('logout')}}" method="post">

@@ -16,7 +16,7 @@
       </button>
     </form>
     <p class="date__today">{{ $today }}</p>
-    <form action="/getattendances" method="get">
+    <form action="/attendance_list" method="get">
       @csrf
       <button name="date" id="next" value="{{ $today }}"> &gt;</button>
     </form>
@@ -43,7 +43,7 @@
     </table>
   </div>
   <div class="paginate">
-    <form action="/attendance_list" method="get">
+    <form action="/attendance_list/{num}}" method="get">
       <input type="hidden" name="date" value="{{ $today }}">
       {{ $attendances->links() }}
     </form>

@@ -36,4 +36,4 @@ Route::post('/workEnd', [AttendanceController::class, 'workEnd']);
 Route::post('/restStart', [AttendanceController::class, 'restStart']);
 Route::post('/restEnd', [AttendanceController::class, 'restEnd']);
 Route::get('/attendance_list', [AttendanceController::class, 'getAttendances']);
-Route::get('/attendance?date={$today}', [TimeController::class, 'getAttendances']);
+Route::get('/attendance_list/{num}', [AttendanceController::class, 'getAttendances']);

@@ -269,7 +269,7 @@ class AttendanceController extends Controller
         if (is_null($request->date) || ($request->date == "today")) {
             $today = Carbon::today()->format('Y-m-d');
         } else {
-            $today = $request->date;
+            $subDay = $request->date;
         }
 
         // $prevOrNext = $request->changeDay;
@@ -296,7 +296,7 @@ class AttendanceController extends Controller
             }
         }
 
-        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance?date={$today}"]);
+        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance_list?date={$today}"]);
         // &changeDay={$prevOrNext}
 
         $dt = Carbon::now(); // Carbonを使って今日の日付を取得
@@ -306,6 +306,7 @@ class AttendanceController extends Controller
 
         return view('/attendance_list')->with([
             'today' => $today,
+            'subday' => $subDay,
             'attendances' => $attendances,
         ]);
     }

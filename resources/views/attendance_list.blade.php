@@ -12,13 +12,13 @@
   <div class="date">
     <form action="/attendance_list" method="get">
       @csrf
-      <button name="date" id="prev" value="{{ $today }}"> &lt;
+      <button name="date" id="prev" value="{{ $targetDate->subDay()->format('Y-m-d')}}"> &lt;
       </button>
     </form>
-    <p class="date__today">{{ $today }}</p>
+    <p class="date__today">{{ $targetDate->format('Y-m-d') }}</p>
     <form action="/attendance_list" method="get">
       @csrf
-      <button name="date" id="next" value="{{ $today }}"> &gt;</button>
+      <button name="date" id="next" value="{{ $targetDate->tomorrow()->format('Y-m-d') }}"> &gt;</button>
     </form>
   </div>
 
@@ -44,7 +44,7 @@
   </div>
   <div class="paginate">
     <form action="/attendance_list/{num}}" method="get">
-      <input type="hidden" name="date" value="{{ $today }}">
+      <input type="hidden" name="date" value="{{ $targetDate->format('Y-m-d') }}">
       {{ $attendances->links() }}
     </form>
   </div>

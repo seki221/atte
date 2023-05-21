@@ -266,18 +266,20 @@ class AttendanceController extends Controller
     //「日付一覧」で表示される、全ユーザーの日付別勤怠情報
     public function getAttendances(Request $request)
     {
-        if (is_null($request->date) || ($request->date == "today")) {
-            $today = Carbon::today()->format('Y-m-d');
-        } else {
-            $subDay = $request->date;
-        }
+        // if(is_null($request->date)){
+        //     $targetDate=Carbon::today();
+        // }else{
+        // }
+        
+        $targetDate = new Carbon($request->date);
+        
 
         // $prevOrNext = $request->changeDay;
 
         $resultArray[] = array();
         $i = 0;
 
-        $attendanceTodayAll = Attendance::where('date', $today)->get();
+        $attendanceTodayAll = Attendance::where('date', $targetDate->format('Y-m-d'))->get();
 
         foreach ($attendanceTodayAll as $attendanceToday) {
             if ($attendanceToday->end_time) {
@@ -296,17 +298,19 @@ class AttendanceController extends Controller
             }
         }
 
-        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance_list?date={$today}"]);
+        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance_list?date={$targetDate->format('Y-m-d')}"]);
         // &changeDay={$prevOrNext}
 
         $dt = Carbon::now(); // Carbonを使って今日の日付を取得
         $times = [
-            "SubDay" => $dt->subDay(),
+            "today" => $dt,
+            // "&lt;" => $dt->$today(+1),
+            // "SubDay" => $dt->$today()-1,
         ];
+        
 
         return view('/attendance_list')->with([
-            'today' => $today,
-            'subday' => $subDay,
+            'targetDate' => $targetDate,
             'attendances' => $attendances,
         ]);
     }

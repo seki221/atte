@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
+<?php
+use Carbon\Carbon;
+?>
 
 <head>
   <meta charset="UTF-8">
@@ -24,7 +27,7 @@
             <a href="/">ホーム</a>
           </li>
           <li class="nav__item">
-            <a href="/attendance_list">日付一覧</a>
+            <a href="/attendance_list?date={{Carbon::today()->format('Y-m-d')}}">日付一覧</a>
           </li>
           <li class="nav__item">
             <form action="{{route('logout')}}" method="post">

@@ -1,4 +1,8 @@
 @extends('layouts.default')
+<?php
+
+use Carbon\Carbon;
+?>
 
 <head>
   <link rel="stylesheet" href="/css/reset.css">
@@ -15,10 +19,12 @@
       <button name="date" id="prev" value="{{ $targetDate->subDay()->format('Y-m-d')}}"> &lt;
       </button>
     </form>
-    <p class="date__today">{{ $targetDate->format('Y-m-d') }}</p>
+    <p class="date__today">
+      {{ $today->format('Y-m-d') }}
+    </p>
     <form action="/attendance_list" method="get">
       @csrf
-      <button name="date" id="next" value="{{ $targetDate->tomorrow()->format('Y-m-d') }}"> &gt;</button>
+      <button name="date" id="next" value="{{ $targetDate->tomorrow()->format('Y-m-d')}}"> &gt;</button>
     </form>
   </div>
 

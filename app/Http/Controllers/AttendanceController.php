@@ -266,12 +266,16 @@ class AttendanceController extends Controller
     //「日付一覧」で表示される、全ユーザーの日付別勤怠情報
     public function getAttendances(Request $request)
     {
-        // if(is_null($request->date)){
-        //     $targetDate=Carbon::today();
-        // }else{
-        // }
+        if(is_null($request->date)){
+            $targetDate=Carbon::today();
+            $today=Carbon::tomorrow();
+
+        }else {
+            // $targetDate = new Carbon($request->date);
+            $targetDate = new Carbon($request->date);    
+            $today = new Carbon($request->date);
+        }
         
-        $targetDate = new Carbon($request->date);
         
 
         // $prevOrNext = $request->changeDay;
@@ -280,7 +284,8 @@ class AttendanceController extends Controller
         $i = 0;
 
         $attendanceTodayAll = Attendance::where('date', $targetDate->format('Y-m-d'))->get();
-
+        $attendanceTodayAll = Attendance::where('date', $today->format('Y-m-d'))->get();
+        
         foreach ($attendanceTodayAll as $attendanceToday) {
             if ($attendanceToday->end_time) {
                 $restTodayAll = Rest::where('attendance_id', $attendanceToday->id)->get();
@@ -289,7 +294,7 @@ class AttendanceController extends Controller
 
                 foreach ($restTodayAll as $restToday) {
                     $restTime = $this->calculateRestTime($restToday);
-                    $restTimeDiffInSecondsTotal += $restTime;
+                    $restTimeDiffInSecondsTotal = $restTime;
                 }
 
                 $result = $this->actualWorkTime($attendanceToday, $restTimeDiffInSecondsTotal);
@@ -302,14 +307,14 @@ class AttendanceController extends Controller
         // &changeDay={$prevOrNext}
 
         $dt = Carbon::now(); // Carbonを使って今日の日付を取得
-        $times = [
+        $dt = [
             "today" => $dt,
-            // "&lt;" => $dt->$today(+1),
-            // "SubDay" => $dt->$today()-1,
+            "tomorrow" => $dt->addDay(),
         ];
         
 
         return view('/attendance_list')->with([
+            'today' => $today,
             'targetDate' => $targetDate,
             'attendances' => $attendances,
         ]);

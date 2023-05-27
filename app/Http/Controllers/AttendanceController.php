@@ -334,4 +334,82 @@ class AttendanceController extends Controller
             $page, 
             $options);
     }
+
+    //ユーザー一覧ページ
+    public function getUserList()
+    {
+        $getUsers = User::select('name', 'email')->get();
+
+        $usersArray[] = array();
+        $i = 0;
+
+        foreach ($getUsers as $user) {
+            $usersArray[$i] = $user;
+            $i++;
+        }
+
+        $users = $this->paginate($usersArray, 10, null, ['path' => "/user_page"]);
+
+        return view('/user_page')->with([
+            'users' => $users
+        ]);
+    }
+
+    //ユーザー別勤怠一覧の取得
+    public function listbyUser (Request $request){
+        if(is_null($request->date)){
+            $targetDate=Carbon::today();
+            $today=Carbon::tomorrow();
+
+        }else {
+            // $targetDate = new Carbon($request->date);
+            $attendance = new Carbon($request->date);    
+            $today = new Carbon($request->date);
+        }
+
+        $targetDate= $request->date;
+        $userName = $request->name;
+        $resultArray[] = array();
+        $i = 0;
+
+        $userInfo = User::where('name', $userName)->first();
+        $userId = $userInfo->id;
+        //まずはattendanceの配列を用意
+        $userAttendanceAll = Attendance::where('user_id', $userId)->get();
+        // $attendanceTodayAll = Attendance::where('date', $targetDate->format('Y-m-d'))->get();
+
+        foreach ($userAttendanceAll as $userAttendance) {
+            if ($userAttendance->end_time) {
+                $userRestAll = Rest::where(
+                    'attendance_id',
+                    $userAttendance->id
+                )->get();
+
+                $restTimeDiffInSecondsTotal = 0;
+
+                foreach ($userRestAll as $userRest) {
+                    $restTime = $this->calculateRestTime($userRest);
+                    $restTimeDiffInSecondsTotal += $restTime;
+                }
+
+                $result = $this->actualWorkTime($userAttendance, $restTimeDiffInSecondsTotal);
+                $resultArray[$i] = $result;
+                $i++;
+            }
+        }
+
+        
+
+        $attendances = $this->paginate(
+            $resultArray,
+            5,
+            null,
+            ['path' => "/user_list?name={$userName}"]
+        );
+
+        return view('/user_list')->with([
+            'attendances' => $attendances,
+            'userName' => $userName,
+        ]);
+    }
 }

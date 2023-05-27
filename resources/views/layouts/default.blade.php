@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <?php
+
 use Carbon\Carbon;
 ?>
 
@@ -29,6 +30,7 @@ use Carbon\Carbon;
           <li class="nav__item">
             <a href="/attendance_list?date={{Carbon::today()->format('Y-m-d')}}">日付一覧</a>
           </li>
+          <li class="nav__item"><a href="/user_page">ユーザー 一覧</a></li>
           <li class="nav__item">
             <form action="{{route('logout')}}" method="post">
               @csrf

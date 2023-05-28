@@ -7,7 +7,7 @@ use Carbon\Carbon;
 <head>
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/list.css">
-
+  
 </head>
 @section('title', '日付一覧')
 @section('content')
@@ -16,15 +16,17 @@ use Carbon\Carbon;
   <div class="date">
     <form action="/attendance_list" method="get">
       @csrf
-      <button name="date" id="prev" value="{{ $targetDate->subDay()->format('Y-m-d')}}"> &lt;
-      </button>
-    </form>
-    <p class="date__today">
-      {{ $today->format('Y-m-d') }}
+      <button name="date" id="prev" value="{{ $yesterday->format('Y-m-d')}}"> &lt;
+        </button>
+      </form>
+      <p class="date__today">
+        {{ $today->format('Y-m-d') }}
+
     </p>
     <form action="/attendance_list" method="get">
       @csrf
-      <button name="date" id="next" value="{{ $targetDate->tomorrow()->format('Y-m-d')}}"> &gt;</button>
+      <button name="date" type="date" id="next" value="{{ $tomorrow->format('Y-m-d') }}"> &gt;</button>
+      <!-- <input name="date" type="date" /> -->
     </form>
   </div>
 
@@ -50,7 +52,7 @@ use Carbon\Carbon;
   </div>
   <div class="paginate">
     <form action="/attendance_list/{num}}" method="get">
-      <input type="hidden" name="date" value="{{ $targetDate->format('Y-m-d') }}">
+      <input type="hidden" name="date" value="{{ $today->format('Y-m-d') }}">
       {{ $attendances->links() }}
     </form>
   </div>

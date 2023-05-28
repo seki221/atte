@@ -102,7 +102,7 @@ class AttendanceController extends Controller
 
         $userId = User::where('id', $attendanceToday->user_id)->first();
         $userName = $userId->name;
-
+        
         $param = [
             'userName' => $userName,
             'attendanceStartTime' => $attendanceStartTime,
@@ -123,27 +123,12 @@ class AttendanceController extends Controller
     }
 
     //打刻ページを表示
-    public function index()
-    {
+    public function index(){
         if (Auth::check()) {
             $user = Auth::user();
             $oldAttendance = Attendance::where('user_id', $user->id)->latest()->first();
             if ($oldAttendance) {
-                // $oldDay = new carbon($oldAttendance->date);
-                // $today = Carbon::today();
-                // if ($oldDay == $today->subDay()) {
-                //     if (($oldAttendance->start_time) && (!$oldAttendance->end_time)) {
-                //         $oldAttendance->update([
-                //             'end_time' => '23:59:59',
-                //         ]);
-
-                //         Attendance::create([
-                //             'user_id' => $user->id,
-                //             'date' => Carbon::today(),
-                //             'start_time' => '0:00:00',
-                //         ]);
-                //     }
-                // }
+                
                 $isWorkStarted = $this->didWorkStart($user);
                 $isWorkEnded = $this->didWorkEnd();
                 $isRestStarted = $this->didRestStart();
@@ -169,7 +154,6 @@ class AttendanceController extends Controller
     public function workStart()
     {
         $user = Auth::user();
-
         //「勤務開始」判定
         $isWorkStarted = $this->didWorkStart($user);
 
@@ -185,11 +169,7 @@ class AttendanceController extends Controller
 
         return redirect()->back();
 
-        // return redirect()->back()->with([
-        //     'user' => $user,
-        //     'isWorkStarted' => $isWorkStarted,
-        //     'isWorkEnded' => $isWorkEnded,
-        // ]);
+        
     }
 
     //退勤アクション
@@ -197,7 +177,7 @@ class AttendanceController extends Controller
     {
         $user = Auth::user();
         $attendance = Attendance::where('user_id', $user->id)->latest()->first();
-        //select * from attendances where user_id = 1 order by id desc limit 1
+        
         if ($attendance) {
             if (is_null($attendance->end_time)) {
                 $rest = Rest::where('attendance_id',$attendance->id)->latest()->first();
@@ -219,7 +199,6 @@ class AttendanceController extends Controller
         }
         return redirect()->back();
     }
-    
     
     //休憩開始アクション
     public function restStart()
@@ -267,23 +246,21 @@ class AttendanceController extends Controller
     public function getAttendances(Request $request)
     {
         if(is_null($request->date)){
-            $targetDate=Carbon::today();
-            $today=Carbon::tomorrow();
+            $yesterday=Carbon::yesterday();
+            $today=Carbon::today();
+            $tomorrow = Carbon::tomorrow();
+            
 
         }else {
-            // $targetDate = new Carbon($request->date);
-            $targetDate = new Carbon($request->date);    
             $today = new Carbon($request->date);
+            $yesterday = (new Carbon($request->date))->subDay();
+            $tomorrow = (new Carbon($request->date))->addDay();
         }
-        
-        
-
         // $prevOrNext = $request->changeDay;
 
         $resultArray[] = array();
         $i = 0;
 
-        $attendanceTodayAll = Attendance::where('date', $targetDate->format('Y-m-d'))->get();
         $attendanceTodayAll = Attendance::where('date', $today->format('Y-m-d'))->get();
         
         foreach ($attendanceTodayAll as $attendanceToday) {
@@ -303,25 +280,18 @@ class AttendanceController extends Controller
             }
         }
 
-        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance_list?date={$targetDate->format('Y-m-d')}"]);
+        $attendances = $this->paginate($resultArray, 5, null, ['path' => "/attendance_list?date={$today->format('Y-m-d')}"]);
         // &changeDay={$prevOrNext}
 
-        $dt = Carbon::now(); // Carbonを使って今日の日付を取得
-        $dt = [
-            "today" => $dt,
-            "tomorrow" => $dt->addDay(),
-        ];
         
-
         return view('/attendance_list')->with([
             'today' => $today,
-            'targetDate' => $targetDate,
+            'yesterday' => $yesterday,
+            'tomorrow' => $tomorrow,
             'attendances' => $attendances,
         ]);
     }
-
     
-
     //配列をページネート
     private function paginate($items, $perPage, $page, $options = [])
     {
@@ -335,7 +305,7 @@ class AttendanceController extends Controller
             $options);
     }
 
-    //ユーザー一覧ページ
+    //ユーザー一覧ページ(user_page)
     public function getUserList()
     {
         $getUsers = User::select('name', 'email')->get();
@@ -355,28 +325,16 @@ class AttendanceController extends Controller
         ]);
     }
 
-    //ユーザー別勤怠一覧の取得
+    //ユーザー別勤怠一覧の取得(user_list)
     public function listbyUser (Request $request){
-        if(is_null($request->date)){
-            $targetDate=Carbon::today();
-            $today=Carbon::tomorrow();
+        $name = $request->name;
 
-        }else {
-            // $targetDate = new Carbon($request->date);
-            $attendance = new Carbon($request->date);    
-            $today = new Carbon($request->date);
-        }
-
-        $targetDate= $request->date;
-        $userName = $request->name;
         $resultArray[] = array();
         $i = 0;
 
-        $userInfo = User::where('name', $userName)->first();
+        $userInfo = User::where('name', $name)->first();
         $userId = $userInfo->id;
-        //まずはattendanceの配列を用意
         $userAttendanceAll = Attendance::where('user_id', $userId)->get();
-        // $attendanceTodayAll = Attendance::where('date', $targetDate->format('Y-m-d'))->get();
 
         foreach ($userAttendanceAll as $userAttendance) {
             if ($userAttendance->end_time) {
@@ -397,19 +355,18 @@ class AttendanceController extends Controller
                 $i++;
             }
         }
-
         
-
         $attendances = $this->paginate(
             $resultArray,
             5,
             null,
-            ['path' => "/user_list?name={$userName}"]
+            ['path' => "/user_list?name={$name}"]
         );
 
         return view('/user_list')->with([
             'attendances' => $attendances,
-            'userName' => $userName,
+            'userName' => $name,
+            // 'date' => $date,
         ]);
     }
 }

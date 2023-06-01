@@ -2,8 +2,8 @@
 
 <head>
   <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/list.css">
   <link rel="stylesheet" href="/css/user_list.css">
+  <link rel="stylesheet" href="/css/list.css">
 
 
 </head>
@@ -11,13 +11,28 @@
 @section('content')
 
 <main>
-  <div class="user_name">
+  <div class="user__name">
     <p>{{ $userName }}さんの勤怠記録</p>
   </div>
-
   <div class="date">
-    <form action="/user_page">
-      <label for="time">表示月の変更：</label>
+    <form action="/attendance_list" method="get">
+      @csrf
+      <button name="date_n" id="prev__n" value=""> &lt;
+      </button>
+    </form>
+    <p class="date__n">
+      {{ $today->format('Y-m-d') }}
+    </p>
+    <form action="/attendance_list" method="get">
+      @csrf
+      <button name="date_n" id="next__n" value=""> &gt;
+      </button>
+    </form>
+  </div>
+
+  <div class="month_chenge">
+    <form action="/user_list" method="get">
+      <label for="time">月の変更：</label>
       <select name=" month" id="selectMonth">
         <option value="">-</option>
         <option value="1">1</option>
@@ -33,34 +48,39 @@
         <option value="11">11</option>
         <option value="12">12</option>
       </select>月
+      <input type="submit" value="変更">
     </form>
-    {{$attendances}}
   </div>
   <div class="list">
     <table class="attandance_list">
       <tr class="table-title">
-        <th>名前</th>
+        <th>日付</th>
         <th>勤務開始</th>
         <th>勤務終了</th>
         <th>休憩時間</th>
-        <th id="attendance_time">勤務時間</th>
+        <th>勤務時間</th>
+        <th>勤務時間</th>
       </tr>
-      @foreach($attendances as $users)
-      <form action="/getAttendance" method="get">
-        <tr class="table-value table-value-info">
-          @foreach($users as $name)
-          <td>{{$name}}</td>
-          @endforeach
-        </tr>
-      </form>
+
+
+      <!-- <form action="/user_list" method="get"> -->
+      @foreach($attendances as $values)
+      <tr class="table-value table-value-info">
+        @foreach( $values as $sub_value )
+        <td>{{ $sub_value }}</td>
+        @endforeach
+      </tr>
       @endforeach
+      <!-- </form> -->
+
+
     </table>
-  </div>
-  <div class="paginate">
-    <form action="/attendance_list/{num}}" method="get">
-      <input type="hidden" name="date" value="date">
-      {{ $attendances->links() }}
-    </form>
+    <div class="paginate">
+      <form action="/attendance_list/{num}}" method="get">
+        <input type="hidden" name="date" value="date">
+        {{ $attendances->links() }}
+      </form>
+    </div>
   </div>
 </main>
 @endsection

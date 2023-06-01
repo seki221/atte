@@ -21,12 +21,10 @@ use Carbon\Carbon;
       </form>
       <p class="date__today">
         {{ $today->format('Y-m-d') }}
-
     </p>
     <form action="/attendance_list" method="get">
       @csrf
       <button name="date" type="date" id="next" value="{{ $tomorrow->format('Y-m-d') }}"> &gt;</button>
-      <!-- <input name="date" type="date" /> -->
     </form>
   </div>
 

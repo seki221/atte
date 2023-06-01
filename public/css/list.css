@@ -1,8 +1,8 @@
 main {
   background-color: #D3D3D3;
   padding: 20px 0;
+  width: 100%;
 }
-
 .date {
   display: flex;
   justify-content: center;
@@ -24,18 +24,18 @@ background-color: #0c7ce4;
 color: #fff;
 background-color: #0c7ce4;
 }
-
 .date__today{
   font-size: x-large;
-  margin: 0 40px 0;
+  margin: 0 40px;
 }
+
 
 
 .attandance_list{
   margin: 0 auto 40;
 }
 
-.result-table {
+.attendance-table {
   table-layout: fixed;
   width: 100%;
   text-align: center;
@@ -44,8 +44,8 @@ background-color: #0c7ce4;
 }
 
 tr th{
-  /* padding: 0 40px; */
-  padding: 0 100px 0 50px
+  white-space: nowrap;
+  padding: 0 100px 0 50px;
 }
 #attendance_time{
   /* padding: 0 40px; */

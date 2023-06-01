@@ -308,6 +308,7 @@ class AttendanceController extends Controller
     //ユーザー一覧ページ(user_page)
     public function getUserList()
     {
+        
         $getUsers = User::select('name', 'email')->get();
 
         $usersArray[] = array();
@@ -327,14 +328,21 @@ class AttendanceController extends Controller
 
     //ユーザー別勤怠一覧の取得(user_list)
     public function listbyUser (Request $request){
-        $name = $request->name;
 
+        if (is_null($request->date)) {
+            $today = Carbon::today();
+        } else {
+            $today = new Carbon($request->date);
+        }
+
+        $username = $request->name;
         $resultArray[] = array();
         $i = 0;
 
-        $userInfo = User::where('name', $name)->first();
+        $userInfo = User::where('name', $username)->first();
         $userId = $userInfo->id;
         $userAttendanceAll = Attendance::where('user_id', $userId)->get();
+
 
         foreach ($userAttendanceAll as $userAttendance) {
             if ($userAttendance->end_time) {
@@ -360,13 +368,15 @@ class AttendanceController extends Controller
             $resultArray,
             5,
             null,
-            ['path' => "/user_list?name={$name}"]
+            ['path' => "/user_list?name={$username}"]
         );
 
         return view('/user_list')->with([
             'attendances' => $attendances,
-            'userName' => $name,
-            // 'date' => $date,
+            'userName' => $username,
+            'today' => $today,
         ]);
     }
 }
+
+

@@ -28,7 +28,6 @@
   font-size: 15px;
   
 }
-
 .nav__logout,
 .nav__attendance {
   background-color: transparent;
@@ -42,6 +41,7 @@
 main {
   background-color: #D3D3D3;
 }
+
 /* フッター */
 footer {
   padding-top: 10px;

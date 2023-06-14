@@ -21,10 +21,12 @@
       <form action="/user_list" method="get">
         <tr class="table-value table-value-user">
           <td>
-            <button name="name"  value="{{ $user->name }}" class="name-button">{{ $user->name }}</button>
+            <button name="name" value="{{ $user->name }}" class="name-button">{{ $user->name }}</button>
           </td>
           <td>{{ $user->email }}</td>
         </tr>
+        
+        <input type="hidden" name="id" value="{{$user->id}}">
       </form>
       @endforeach
     </table>
@@ -33,4 +35,4 @@
     {{ $users->links() }}
   </div>
 </div>
-  @endsection
+@endsection

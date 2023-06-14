@@ -7,7 +7,7 @@ use Carbon\Carbon;
 <head>
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/list.css">
-  
+
 </head>
 @section('title', '日付一覧')
 @section('content')
@@ -17,10 +17,10 @@ use Carbon\Carbon;
     <form action="/attendance_list" method="get">
       @csrf
       <button name="date" id="prev" value="{{ $yesterday->format('Y-m-d')}}"> &lt;
-        </button>
-      </form>
-      <p class="date__today">
-        {{ $today->format('Y-m-d') }}
+      </button>
+    </form>
+    <p class="date__today">
+      {{ $today->format('Y-m-d') }}
     </p>
     <form action="/attendance_list" method="get">
       @csrf
@@ -37,13 +37,19 @@ use Carbon\Carbon;
         <th>休憩時間</th>
         <th id="attendance_time">勤務時間</th>
       </tr>
-      @foreach($attendances as $users)
+
+      @foreach($attendances as $attendance)
       <form action="/getAttendance" method="get">
+
+      @if(!empty($attendance))
         <tr class="table-value table-value-info">
-          @foreach($users as $name)
-          <td>{{$name}}</td>
-          @endforeach
+          <td>{{$attendance['userName']}}</td>
+          <td>{{$attendance['attendanceStartTime']}}</td>
+          <td>{{$attendance['attendanceEndTime']}}</td>
+          <td>{{$attendance['restTime']}}</td>
+          <td>{{$attendance['actualWorkTime']}}</td>
         </tr>
+      @endif
       </form>
       @endforeach
     </table>

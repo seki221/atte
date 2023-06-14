@@ -6,7 +6,7 @@ main {
 .date {
   display: flex;
   justify-content: center;
-  margin: 25px;
+  margin: 25px 0 50px;
 }
 .date form #prev,#next{
 width: 40px;

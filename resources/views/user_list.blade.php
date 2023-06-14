@@ -1,4 +1,7 @@
 @extends('layouts.default')
+<?
+$today = date('Y-m-d')
+?>
 
 <head>
   <link rel="stylesheet" href="/css/reset.css">
@@ -12,25 +15,27 @@
 
 <main>
   <div class="user__name">
-    <p>{{ $userName }}さんの勤怠記録</p>
+    <p>{{ $username }}さんの勤怠記録</p>
+
   </div>
   <div class="date">
-    <form action="/attendance_list" method="get">
+    <form action="/user_list" method="get">
       @csrf
       <button name="date_n" id="prev__n" value=""> &lt;
       </button>
     </form>
-    <p class="date__n">
-      {{ $today->format('Y-m-d') }}
-    </p>
-    <form action="/attendance_list" method="get">
+    <div class="date__n">
+      <p class="date__today">
+      </p>
+    </div>
+    <form action="/user_list" method="get">
       @csrf
       <button name="date_n" id="next__n" value=""> &gt;
       </button>
     </form>
   </div>
 
-  <div class="month_chenge">
+  <!-- <div class="month_chenge">
     <form action="/user_list" method="get">
       <label for="time">月の変更：</label>
       <select name=" month" id="selectMonth">
@@ -50,30 +55,30 @@
       </select>月
       <input type="submit" value="変更">
     </form>
-  </div>
+  </div> -->
   <div class="list">
     <table class="attandance_list">
       <tr class="table-title">
         <th>日付</th>
         <th>勤務開始</th>
         <th>勤務終了</th>
+        <th>勤務時間</th>
         <th>休憩時間</th>
-        <th>勤務時間</th>
-        <th>勤務時間</th>
       </tr>
 
-
-      <!-- <form action="/user_list" method="get"> -->
-      @foreach($attendances as $values)
-      <tr class="table-value table-value-info">
-        @foreach( $values as $sub_value )
-        <td>{{ $sub_value }}</td>
-        @endforeach
-      </tr>
+      @foreach($attendances as $attendance)
+      <form action="/user_list" method="get">
+        <tr class="table-value table-value-info">
+          @if(!empty($attendance))
+          <td>{{$attendance['date']}}</td>
+          <td>{{$attendance['attendanceStartTime']}}</td>
+          <td>{{$attendance['attendanceEndTime']}}</td>
+          <td>{{$attendance['actualWorkTime']}}</td>
+          <td>{{$attendance['restTime']}}</td>
+          @endif
+        </tr>
+      </form>
       @endforeach
-      <!-- </form> -->
-
-
     </table>
     <div class="paginate">
       <form action="/attendance_list/{num}}" method="get">

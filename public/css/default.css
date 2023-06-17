@@ -53,3 +53,57 @@ small {
   font-size: 15px;
   font-weight: bold;
 }
+/* paginate */
+svg.w-5.h-5 {
+  width: 30px;
+  height: 30px;
+}
+
+nav div:nth-child(1) {
+  display: none;
+}
+
+nav div:nth-child(2) div:nth-child(2) span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 8px;
+  list-style-type: none;
+  padding: 0;
+}
+
+nav div:nth-child(2) div:nth-child(2) span span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2em;
+  height: 2em;
+  border: 1px solid #2589d0;
+  border-radius: 1px;
+  color: #2589d0;
+}
+
+nav div:nth-child(2) div:nth-child(2) span a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2em;
+  height: 2em;
+  border: 1px solid #2589d0;
+  border-radius: 1px;
+  color: #2589d0;
+}
+
+nav div:nth-child(2) div:nth-child(2) span a:not(:hover) {
+  text-decoration: none;
+}
+
+nav div:nth-child(2) div:nth-child(2) span[aria-current="page"] {
+  background-color: #2589d0;
+  color: #fff;
+  pointer-events: none;
+}
+
+nav div:nth-child(2) div:nth-child(2) span[aria-current="page"] span {
+  color: #fff;
+}

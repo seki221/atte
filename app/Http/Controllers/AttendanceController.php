@@ -339,7 +339,7 @@ class AttendanceController extends Controller
 
         
         $userAttendanceAll = Attendance::where('user_id', $userId)->get();
-        Attendance::where('date', $userId)->get();
+        // Attendance::where('date', $userId)->get();
 
         foreach ($userAttendanceAll as $userAttendance) {
             if ($userAttendance->end_time) {

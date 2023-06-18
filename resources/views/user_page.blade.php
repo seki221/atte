@@ -7,7 +7,7 @@
 
 @section('title', 'ユーザー一覧')
 @section('content')
-<div class="main">
+<main>
   <div class="user-title">
     <h1>ユーザー一覧</h1>
   </div>
@@ -34,5 +34,5 @@
   <div class="paginate">
     {{ $users->links() }}
   </div>
-</div>
+</main>
 @endsection

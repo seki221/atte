@@ -40,6 +40,7 @@
 }
 main {
   background-color: #D3D3D3;
+  flex: 1;
 }
 
 /* フッター */

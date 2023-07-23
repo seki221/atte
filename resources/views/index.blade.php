@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 <head>
+  <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 
@@ -12,17 +13,11 @@
     <p>{{$user->name}}さんお疲れ様です！</p>
     @endif
   </div>
-  @if($isWorkStarted && $isRestStarted)
-  <p class="status">休憩中</p>
-  @elseif($isWorkStarted)
-  <p class="status">勤務中</p>
-  @else
-  <p class="status">退勤済</p>
-  @endif
+
   <div class="main__attendance">
     <div class="attendance__left">
       <!-- 勤務開始 -->
-      @if(($isWorkStarted) || ($isWorkEnded))
+      @if($isWorkStarted)
       <form action="/workStart" method="POST" class="timestamp">
         @csrf
         <button disabled style="color:gray">勤務開始</button>
